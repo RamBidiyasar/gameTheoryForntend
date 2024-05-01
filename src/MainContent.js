@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import ChartSection from './ChartSection';
 import FilterSection from './FilterSection';
 import UploadContent from "./UploadContent";
+import { useNavigate } from "react-router-dom";
 
 function MainContent() {
     const [data, setData] = useState(null);
+    const navigate = useNavigate();
 
     const fetchData = async (champagneId, channels) => {
         try {
@@ -28,13 +30,17 @@ function MainContent() {
 
     const handleCalculate = (champagneId, channels) => {
         if (channels.length >= 2) {
-            fetchData(champagneId, channels);
+            sessionStorage.setItem("champagneId", champagneId);
+            sessionStorage.setItem("channels", channels);
+            // fetchData(champagneId, channels);
+            navigate("/calculate/output");
+
         } else {
             setData(null);
             alert('Please select at least two channels.');
         }
     };
-console.log(data, 'called')
+
     return (
         <div className={"content-container"}>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>

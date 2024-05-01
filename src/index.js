@@ -6,6 +6,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import MainContent from "./MainContent";
 import ChartSection from "./ChartSection";
+import ChartRepresentation from "./ChartRepresentation";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,7 +15,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<App />} />
                 <Route path="/calculate" element={<MainContent />} />
-                <Route path="/calculate/output" element={<ChartSection data={null} />} />
+                <Route path="/calculate/output" element={<ChartRepresentation />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
