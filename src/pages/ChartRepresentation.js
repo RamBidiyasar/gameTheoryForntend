@@ -1,14 +1,13 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
-import '../App.css'
-
+import '../App.css';
 
 function ChartRepresentation() {
     const [data, setData] = useState([]);
-    const chartRef = useRef(null);
+    const chartRefs = useRef({}); // Use an object to store chart references
 
     useEffect(() => {
-        if(sessionStorage.getItem("upload") === "TRUE") {
+        if (sessionStorage.getItem("upload") === "TRUE") {
             let list_items = sessionStorage.getItem("chart_info");
             list_items = JSON.parse(list_items);
             setData(list_items);
@@ -54,42 +53,55 @@ function ChartRepresentation() {
                 }]
             };
 
-            if (chartRef.current) {
-                chartRef.current.destroy();
-            }
+            let chartInstance = chartRefs.current[dataset.campaignId];
 
-            const ctx = document.getElementById('shapleyPieChart').getContext('2d');
-            chartRef.current = new Chart(ctx, {
-                type: 'pie',
-                data: chartData,
-                options: {
-                    aspectRatio: 1,
-                }
-            });
+            if (chartInstance) {
+                // If chart instance exists, update its data
+                chartInstance.data.labels = labels;
+                chartInstance.data.datasets[0].data = values;
+                chartInstance.update();
+            } else {
+                // If chart instance doesn't exist, create a new one
+                const ctx = document.getElementById(dataset.campaignId).getContext('2d');
+                chartInstance = new Chart(ctx, {
+                    type: 'pie',
+                    data: chartData,
+                    options: {
+                        aspectRatio: 1,
+                    }
+                });
+                chartRefs.current[dataset.campaignId] = chartInstance; // Save chart reference
+            }
         });
     }, [data]);
 
-
     return (
-        <div>
+        <div className="container">
             {data.length > 0 ? (
-                data.map((data_set, ind) => <div key={ind}>
-                    <div className={'pie-container'}>
-                        <canvas id="shapleyPieChart" width="40" height="40"></canvas>
+                data.map((data_set, ind) => (
+                    <div key={ind} className="data-set">
+                        <div className="chart-info">
+                            <div className="text-info">
+                                <h2>{data_set.campaignId}</h2>
+                                <h2>Shapley Values:</h2>
+                                <ul>
+                                    {Object.entries(data_set.shapleyValues).map(([channel, value]) => (
+                                        <li key={channel}>{channel}: {value}</li>
+                                    ))}
+                                </ul>
+                                <h2>Channel Contribution:</h2>
+                                <ul>
+                                    {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
+                                        <li key={channel}>{channel}: {contribution}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="chart-container">
+                            <canvas id={data_set.campaignId} width="400" height="400"></canvas>
+                        </div>
                     </div>
-                    <h2>Shapley Values:</h2>
-                    <ul>
-                        {Object.entries(data_set.shapleyValues).map(([channel, value]) => (
-                            <li key={channel}>{channel}: {value}</li>
-                        ))}
-                    </ul>
-                    <h2>Channel Contribution:</h2>
-                    <ul>
-                        {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
-                            <li key={channel}>{channel}: {contribution}</li>
-                        ))}
-                    </ul>
-                </div>)
+                ))
             ) : (
                 <p>Loading...</p>
             )}

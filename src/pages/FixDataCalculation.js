@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import ChartSection from '../elements/ChartSection';
 import FilterSection from '../elements/FilterSection';
-import UploadContent from "../elements/UploadContent";
+import UploadContent from "./UploadContent";
 import { useNavigate } from "react-router-dom";
 
-function MainContent() {
+function FixDataCalculation() {
     const [data, setData] = useState(null);
     const navigate = useNavigate();
 
@@ -25,10 +25,9 @@ function MainContent() {
         <div className={"content-container"}>
             <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                 <FilterSection handleCalculate={handleCalculate} />
-                <UploadContent />
             </div>
         </div>
     );
 }
 
-export default MainContent;
+export default FixDataCalculation;

@@ -10,13 +10,14 @@ function App() {
     const [dataList, setDataList] = useState([]);
     const navigate = useNavigate();
 
-    const togglePage = () => {
-        navigate("/calculate");
+    const goToFixDataPage = () => {
+        navigate("/calculate/dummy");
     };
 
-    const handleFileChange = (event) => {
-        setFile(event.target.files[0]);
-    };
+    const uploadFiile = ()=>{
+        navigate("/calculate/upload")
+    }
+
 
     const handleUpload = () => {
         const formData = new FormData();
@@ -37,7 +38,8 @@ function App() {
         <div>
                 <div>
                    <ProblemSolution/>
-                    <Button onClick={togglePage} label="Go to Main Content"/>
+                    <Button onClick={goToFixDataPage} label="Go to Main Content"/>
+                    <Button onClick={uploadFiile} label="Upload file"/>
                 </div>
         </div>
     );

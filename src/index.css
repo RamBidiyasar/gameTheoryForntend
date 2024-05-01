@@ -7,16 +7,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
 
-  h1 {
-
-  }
-
-  button {
-    background: #000000;
-    padding: 10px;
-    border-radius: 2px;
-    color: white;
-  }
 }
 
 code {

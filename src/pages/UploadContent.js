@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import Button from './Button';
-import ChartSection from './ChartSection';
+import Button from '../elements/Button';
 import {useNavigate} from "react-router-dom";
 
 
@@ -8,12 +7,14 @@ function UploadContent() {
     const [file, setFile] = useState(null);
     const [dataList, setDataList] = useState([]);
     const navigate = useNavigate();
+    const [isUploading, setIsUploading] = useState(false);
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
     };
 
     const handleUpload = () => {
+        setIsUploading(true);
         const formData = new FormData();
         formData.append('file', file);
         sessionStorage.removeItem("chart_info");
@@ -33,16 +34,32 @@ function UploadContent() {
     };
 
     return (
-        <div>
-            <div>
-                <input type="file" onChange={handleFileChange}/>
-                <Button onClick={handleUpload} label="Upload File"/>
-                {dataList.map((data, index) => (
-                    <ChartSection key={index} data={data}/>
-                ))}
-            </div>
+        <div className="upload-container">
+            {isUploading ? (
+                <div className="uploading">
+                    <h1>Calculating wealth of every channel</h1>
+                    {/* Add loading animation or indicator here */}
+                </div>
+            ) : (
+                <div className="file-upload">
+                    <h1>Upload a File</h1>
+                    <div className="file-input">
+                        <input type="file" id="file-input" onChange={handleFileChange}/>
+                        <label htmlFor="file-input" className="file-label">Choose File</label>
+                    </div>
+                    <br/>
+                    <br/>
+                    {file && <span className="file-name">{file.name}</span>}
+                    <br/>
+                    {file && <Button onClick={handleUpload} label="Calculate" className="button-gap"/>}
+                </div>
+
+            )}
         </div>
     );
+
+
+
 }
 
 export default UploadContent;
