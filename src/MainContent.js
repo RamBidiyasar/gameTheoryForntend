@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
 import ChartSection from './ChartSection';
 import FilterSection from './FilterSection';
+import UploadContent from "./UploadContent";
 
 function MainContent() {
     const [data, setData] = useState(null);
 
     const fetchData = async (champagneId, channels) => {
         try {
-            // const input = document.getElementById("test");
-            // const data = new FormData();
-            // data.append('file', input.files[0])
-            // debugger;
-            // return;
             const response = await fetch('http://localhost:8088/channel/worth/calculate', {
                 method: 'POST',
                 headers: {
@@ -41,7 +37,10 @@ function MainContent() {
 console.log(data, 'called')
     return (
         <div className={"content-container"}>
-            <FilterSection handleCalculate={handleCalculate} />
+            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                <FilterSection handleCalculate={handleCalculate} />
+                <UploadContent />
+            </div>
             <ChartSection data={data} />
             {/*<input type="file" name={"test"} id={"test"}/>*/}
         </div>
