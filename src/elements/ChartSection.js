@@ -1,38 +1,11 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
-import './App.css'
+import '../App.css'
 
 
-function ChartRepresentation() {
-    const [data, setData] = useState(null);
+function ChartSection({ data }) {
+
     const chartRef = useRef(null);
-
-    const fetchData = async (champagneId, channels) => {
-        try {
-            const response = await fetch('http://localhost:8088/channel/worth/calculate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    champagneId,
-                    channels
-                })
-            });
-
-            const responseData = await response.json();
-            setData(responseData);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
-
-    useEffect(() => {
-        const champagneId = sessionStorage.getItem("champagneId");
-        let channels = sessionStorage.getItem("channels");
-        channels = channels.split(",");
-        fetchData(champagneId, channels);
-    }, []);
 
     useEffect(() => {
         if (data) {
@@ -90,4 +63,4 @@ function ChartRepresentation() {
     );
 }
 
-export default ChartRepresentation;
+export default ChartSection;

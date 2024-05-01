@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Button from './Button';
+import Button from '../elements/Button';
 
 function DataPage() {
     const history = useHistory();

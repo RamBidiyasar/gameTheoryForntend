@@ -1,12 +1,18 @@
 import React, {useState} from 'react';
-import Button from './Button';
-import ChartSection from './ChartSection';
+import Button from '../elements/Button';
+import ChartSection from '../elements/ChartSection';
+import ProblemSolution from "../elements/ProblemSolution"; // Import the ChartSection component
+import { useNavigate } from "react-router-dom";
 
 
-function UploadContent() {
+function App() {
     const [file, setFile] = useState(null);
     const [dataList, setDataList] = useState([]);
+    const navigate = useNavigate();
 
+    const togglePage = () => {
+        navigate("/calculate");
+    };
 
     const handleFileChange = (event) => {
         setFile(event.target.files[0]);
@@ -29,15 +35,12 @@ function UploadContent() {
 
     return (
         <div>
-            <div>
-                <input type="file" onChange={handleFileChange}/>
-                <Button onClick={handleUpload} label="Upload File"/>
-                {dataList.map((data, index) => (
-                    <ChartSection key={index} data={data}/>
-                ))}
-            </div>
+                <div>
+                   <ProblemSolution/>
+                    <Button onClick={togglePage} label="Go to Main Content"/>
+                </div>
         </div>
     );
 }
 
-export default UploadContent;
+export default App;
