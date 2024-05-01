@@ -1,110 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
-import './App.css'
+import React, {useState} from 'react';
+import MainContent from './MainContent';
+import Button from './Button';
+import ChartSection from './ChartSection'; // Import the ChartSection component
 
 function App() {
-  const [data, setData] = useState(null);
-  const [chartData, setChartData] = useState(null);
-  const chartRef = useRef(null);
+    const [showMainContent, setShowMainContent] = useState(false);
+    const [file, setFile] = useState(null);
+    const [dataList, setDataList] = useState([]);
 
-  useEffect(() => {
-    // Function to fetch data from the API
-    const fetchData = async () => {
-      try {
-        const response = await fetch('http://localhost:8088/channel/worth/calculate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            champagneId: '123',
-            channels: ['whatsapp', 'sms', 'email']
-          })
-        });
-
-        // Parse the response JSON
-        const responseData = await response.json();
-
-        // Set the response data to the state
-        setData(responseData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const togglePage = () => {
+        setShowMainContent(!showMainContent);
     };
 
-    fetchData(); // Call the function
-  }, []); // Empty dependency array ensures useEffect runs only once
-
-  useEffect(() => {
-    // Function to create pie chart data
-    const createChartData = () => {
-      if (data) {
-        const labels = Object.keys(data.shapleyValues);
-        const values = Object.values(data.shapleyValues);
-
-        const chartData = {
-          labels: labels,
-          datasets: [{
-            label: 'Shapley Values',
-            data: values,
-            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-          }]
-        };
-        setChartData(chartData);
-      }
+    const handleFileChange = (event) => {
+        setFile(event.target.files[0]);
     };
 
-    createChartData(); // Call the function
-  }, [data]); // Run this effect when data changes
+    const handleUpload = () => {
+        const formData = new FormData();
+        formData.append('file', file);
 
-  useEffect(() => {
-    // Function to create or update pie chart
-    const createOrUpdatePieChart = () => {
-      if (chartData) {
-        if (chartRef.current) {
-          // If chart already exists, destroy it before creating a new one
-          chartRef.current.destroy();
-        }
-
-        const ctx = document.getElementById('shapleyPieChart').getContext('2d');
-        chartRef.current = new Chart(ctx, {
-          type: 'pie',
-          data: chartData,
-          options: {
-            aspectRatio: 1, // Set the aspect ratio of the chart
-          }
-        });
-      }
+        fetch('http://localhost:8088/channel/worth/uploadFile', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(result => {
+                setDataList(result);
+            })
+            .catch(error => console.error('Error uploading file:', error));
     };
 
-    createOrUpdatePieChart(); // Call the function
-  }, [chartData]); // Run this effect when chartData changes
+    return (
+        <div>
+            {showMainContent ? (
+                <MainContent/>
+            ) : (
+                <div>
+                    <h1>Problem Statement:</h1>
+                    <p>Inaccurate attribution of digital marketing channels leads to:</p>
+                    <ul>
+                        <li>Misinformed decision-making</li>
+                        <li>Hindering campaign optimization and ROI</li>
+                        <li>Subpar customer experience by carpet bombing all the channels</li>
+                    </ul>
+                    <h1>Solve:</h1>
+                    <p> Leveraging Shapley Value algorithm to determine the appropriate attribution in a multi-channel
+                        world</p>
+                    <ul>
+                        <li>
+                            It treats each touch-point as a player in a cooperative game
+                        </li>
+                        <li>
+                            We are calculating marginal contribution to conversions across all possible combinations by
+                            assigning credit to each channel
+                        </li>
+                        <li>
+                            This provides actionable insights for optimal allocation of resources & optimizes campaign
+                            performance
 
-  return (
-      <div className={"content-container"}>
-        {data ? (
-            <div>
-              <div className={'pie-container'}>
-                <canvas id="shapleyPieChart" width="40" height="40"></canvas>
-              </div>
-              <h2>Shapley Values:</h2>
-              <ul>
-                {Object.entries(data.shapleyValues).map(([channel, value]) => (
-                    <li key={channel}>{channel}: {value}</li>
-                ))}
-              </ul>
-              <h2>Channel Contribution:</h2>
-              <ul>
-                {Object.entries(data.channelContribution).map(([channel, contribution]) => (
-                    <li key={channel}>{channel}: {contribution}</li>
-                ))}
-              </ul>
-            </div>
-        ) : (
-            <p>Loading...</p>
-        )}
-      </div>
-  );
+                        </li>
+                    </ul>
+                    <h1>Business Objective</h1>
+                    <p>Our objective is to empower businesses with data-driven decision-making, enabling them to achieve higher ROI by allocating resources efficiently across digital marketing channels, ultimately enhancing customer acquisition and retention strategies without diluting customer experience
+                    </p>
+                    <input type="file" onChange={handleFileChange}/>
+                    <Button onClick={handleUpload} label="Upload File"/>
+                    {dataList.map((data, index) => (
+                        <ChartSection key={index} data={data}/>
+                    ))}
+                    <Button onClick={togglePage} label="Go to Main Content"/>
+                </div>
+            )}
+        </div>
+    );
 }
 
 export default App;
