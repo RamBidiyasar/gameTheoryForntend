@@ -90,17 +90,19 @@ function ChartRepresentation() {
                         <br/>
                             <MyTable coalitions={data_set.coalitions} interactionRatio={data_set.interactionRatio} />
                             <MyChart coalitions={data_set.coalitions} interactionRatio={data_set.interactionRatio} />
-                            <div className="chart-info">
-                                <div className="text-info">
-                                    <h2>Channel Contribution:</h2>
-                                    <ul>
-                                        {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
-                                            <li key={channel}>{channel}: {contribution}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        <div className="chart-container">
+                        <div className="text-info">
+                            <h2>Channel Contribution:</h2>
+                            <ul className="channel-list">
+                                {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
+                                    <li key={channel}>
+                                        <span className="channel-name">{channel}:</span>
+                                        <span className="channel-contribution">{contribution}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="chart-container-pie">
                             <canvas id={data_set.campaignId} width="400" height="400"></canvas>
                         </div>
                     </div>
