@@ -14,7 +14,7 @@ function App() {
         navigate("/calculate/dummy");
     };
 
-    const uploadFiile = ()=>{
+    const uploadFile = ()=>{
         navigate("/calculate/upload")
     }
 
@@ -35,14 +35,18 @@ function App() {
     };
 
     return (
-        <div>
-                <div>
-                   <ProblemSolution/>
-                    <Button onClick={goToFixDataPage} label="Go to Main Content"/>
-                    <Button onClick={uploadFiile} label="Upload file"/>
+        <div className="outekr-container">
+            <div className="inner-container">
+                <ProblemSolution />
+                <h3>Find worth on channel by:</h3>
+                <div className="button-container">
+                    <Button onClick={goToFixDataPage} label="Existing data" />
+                    <Button onClick={uploadFile} label="Uploading file" />
                 </div>
+            </div>
         </div>
     );
+
 }
 
 export default App;

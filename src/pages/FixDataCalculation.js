@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import ChartSection from '../elements/ChartSection';
+import React, {useState} from 'react';
 import FilterSection from '../elements/FilterSection';
-import UploadContent from "./UploadContent";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 function FixDataCalculation() {
     const [data, setData] = useState(null);
@@ -22,12 +20,8 @@ function FixDataCalculation() {
     };
 
     return (
-        <div className={"content-container"}>
-            <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <FilterSection handleCalculate={handleCalculate} />
-            </div>
-        </div>
-    );
+        <FilterSection handleCalculate={handleCalculate}/>
+    )
 }
 
 export default FixDataCalculation;
