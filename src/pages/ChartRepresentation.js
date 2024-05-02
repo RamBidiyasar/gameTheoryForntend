@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import '../App.css';
+import '../elements/MyTable';
+import MyTable from "../elements/MyTable";
 
 function ChartRepresentation() {
     const [data, setData] = useState([]);
@@ -74,29 +76,29 @@ function ChartRepresentation() {
             }
         });
     }, [data]);
+    console.log(data, 'called');
 
     return (
-        <div className="container">
+        <div className="outer-container">
+            <div className="inner-container">
+                <h2>Channel worth for Campaigns</h2>
             {data.length > 0 ? (
                 data.map((data_set, ind) => (
                     <div key={ind} className="data-set">
-                        <div className="chart-info">
-                            <div className="text-info">
-                                <h2>{data_set.campaignId}</h2>
-                                <h2>Shapley Values:</h2>
-                                <ul>
-                                    {Object.entries(data_set.shapleyValues).map(([channel, value]) => (
-                                        <li key={channel}>{channel}: {value}</li>
-                                    ))}
-                                </ul>
-                                <h2>Channel Contribution:</h2>
-                                <ul>
-                                    {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
-                                        <li key={channel}>{channel}: {contribution}</li>
-                                    ))}
-                                </ul>
+                        <h2>Campaign Id : {data_set.campaignId}</h2>
+                        <br/>
+                            <MyTable coalitions={data_set.coalitions} interactionRatio={data_set.interactionRatio} />
+
+                            <div className="chart-info">
+                                <div className="text-info">
+                                    <h2>Channel Contribution:</h2>
+                                    <ul>
+                                        {Object.entries(data_set.channelContribution).map(([channel, contribution]) => (
+                                            <li key={channel}>{channel}: {contribution}</li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
                         <div className="chart-container">
                             <canvas id={data_set.campaignId} width="400" height="400"></canvas>
                         </div>
@@ -105,6 +107,7 @@ function ChartRepresentation() {
             ) : (
                 <p>Loading...</p>
             )}
+            </div>
         </div>
     );
 }
