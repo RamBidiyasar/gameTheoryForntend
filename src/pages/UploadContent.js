@@ -37,7 +37,7 @@ function UploadContent() {
         <div className="upload-container">
             {isUploading ? (
                 <div className="uploading">
-                    <h1>Calculating wealth of every channel</h1>
+                    <h1>Calculating value of every channel</h1>
                     {/* Add loading animation or indicator here */}
                 </div>
             ) : (

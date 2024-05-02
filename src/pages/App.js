@@ -35,10 +35,10 @@ function App() {
     };
 
     return (
-        <div className="outekr-container">
+        <div className="outer-container">
             <div className="inner-container">
                 <ProblemSolution />
-                <h3>Find worth on channel by:</h3>
+                <h3>Find worth of channels by:</h3>
                 <div className="button-container">
                     <Button onClick={goToFixDataPage} label="Existing data" />
                     <Button onClick={uploadFile} label="Uploading file" />
