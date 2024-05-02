@@ -1,11 +1,28 @@
 import React from 'react';
-import digital from '../assets/digital-journey.jpg'
+import digital from '../assets/user-journy.png'
 import shapley from '../assets/logo.png';
 import details from '../assets/details.png'
+import Button from "./Button";
+import {useNavigate} from "react-router-dom";
 
 function ProblemSolution() {
+    const navigate = useNavigate();
+
+    const goToFixDataPage = () => {
+        navigate("/calculate/dummy");
+    };
+
+    const uploadFile = ()=>{
+        navigate("/calculate/upload")
+    }
     return (
-        <div>
+        <div className="container-h">
+            <div className="button-container">
+                <Button onClick={goToFixDataPage} label="Existing data" />
+                <Button onClick={uploadFile} label="Uploading file" />
+            </div>
+            <br/>
+            <br/>
             <br/>
             <h1 className="title">Conversion Intelligence - Marketing attribution platform</h1>
             <div className="image">

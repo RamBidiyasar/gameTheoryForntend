@@ -21,7 +21,7 @@ const MyTable = ({ coalitions, interactionRatio }) => {
                     <tr key={index}>
                         <td>{index + 1}</td>
                         <td>{coalition}</td>
-                        <td>{interactionRatio[index]}</td>
+                        <td>{(interactionRatio[index] * 100).toFixed(2)}%</td>
                     </tr>
                 ))}
                 </tbody>

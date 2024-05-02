@@ -18,10 +18,6 @@ function App() {
     return (
         <div className="outer-container">
             <div className="inner-container">
-                <div className="button-container">
-                    <Button onClick={goToFixDataPage} label="Existing data" />
-                    <Button onClick={uploadFile} label="Uploading file" />
-                </div>
                 <ProblemSolution />
                 <h3>Find worth of channels by:</h3>
                 <Button onClick={goToFixDataPage} label="Existing data" />

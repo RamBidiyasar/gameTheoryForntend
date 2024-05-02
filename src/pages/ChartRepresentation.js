@@ -3,6 +3,7 @@ import Chart from 'chart.js/auto';
 import '../App.css';
 import '../elements/MyTable';
 import MyTable from "../elements/MyTable";
+import MyChart from "../elements/MyChart";
 
 function ChartRepresentation() {
     const [data, setData] = useState([]);
@@ -51,7 +52,7 @@ function ChartRepresentation() {
                 datasets: [{
                     label: 'Shapley Values',
                     data: values,
-                    backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
+                    backgroundColor: ['#12d365', '#36A2EB', '#ab2671']
                 }]
             };
 
@@ -88,7 +89,7 @@ function ChartRepresentation() {
                         <h2>Campaign Id : {data_set.campaignId}</h2>
                         <br/>
                             <MyTable coalitions={data_set.coalitions} interactionRatio={data_set.interactionRatio} />
-
+                            <MyChart coalitions={data_set.coalitions} interactionRatio={data_set.interactionRatio} />
                             <div className="chart-info">
                                 <div className="text-info">
                                     <h2>Channel Contribution:</h2>
